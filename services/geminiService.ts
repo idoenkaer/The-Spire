@@ -1,4 +1,8 @@
 
+
+
+
+
 import { GoogleGenAI } from "@google/genai";
 import { AvatarConfig } from '../types';
 import * as C from '../constants';
@@ -254,12 +258,23 @@ export const generateAvatarImage = async (config: AvatarConfig, apiKey: string):
   }
 
   // Handle Chroma Profile
-  const chromaInstructions = (config.chromaProfile && config.chromaProfile !== 'none' && C.CHROMA_LIBRARY[config.chromaProfile])
-    ? `CHROMA & SPECTRAL COLORIMETRY (MLAOS):
+  let chromaInstructions = '';
+  
+  // 🔹 PROCEDURAL OVERRIDE: If custom description exists, use it.
+  if (config.customChromaDescription && config.chromaProfile.startsWith('PROCEDURAL:')) {
+      chromaInstructions = `CHROMA & SPECTRAL COLORIMETRY (PROCEDURAL):
+      The user has synthesized a unique chroma protocol.
+      ${config.customChromaDescription}
+      (This generated physics layer OVERRIDES standard spectral behaviors)`;
+  } else if (config.chromaProfile && config.chromaProfile !== 'none' && C.CHROMA_LIBRARY[config.chromaProfile]) {
+      // Standard Library Lookup
+       chromaInstructions = `CHROMA & SPECTRAL COLORIMETRY (MLAOS):
        Apply the "${config.chromaProfile}" profile. 
        ${C.CHROMA_LIBRARY[config.chromaProfile]}
-       (Note: This color profile OVERRIDES individual hair/skin/eye selections where they conflict, and OVERRIDES standard spectral physics behaviors)`
-    : `Colors: ${config.hairColor} hair, ${config.skinTone}, ${config.eyeColor} eyes.`;
+       (Note: This color profile OVERRIDES individual hair/skin/eye selections where they conflict, and OVERRIDES standard spectral physics behaviors)`;
+  } else {
+       chromaInstructions = `Colors: ${config.hairColor} hair, ${config.skinTone}, ${config.eyeColor} eyes.`;
+  }
 
   // RITUAL SKIN PROMPT INJECTION
   const ritualSkinPrompt = buildRitualSkinDescription(config);

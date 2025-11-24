@@ -4,9 +4,12 @@ import { AvatarConfig } from '../types';
 import { SelectGroup } from './ui/SelectGroup';
 import { Button } from './ui/Button';
 import { Slider } from './ui/Slider';
-import { IconUser, IconShirt, IconPalette, IconDice, IconSliders, IconUpload, IconSparkles, IconArch } from './Icons';
+import { IconUser, IconShirt, IconPalette, IconDice, IconSliders, IconUpload, IconSparkles, IconArch, IconBook } from './Icons';
 import { Footer } from './Footer';
+import { ChromaDiceRoller } from './ChromaDiceRoller';
+import { ChromaCodex } from './ChromaCodex';
 import * as C from '../constants';
+import { generateProceduralChroma } from '../services/chromaGenerator';
 
 interface ControlPanelProps {
   config: AvatarConfig;
@@ -18,6 +21,7 @@ interface ControlPanelProps {
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRandomize, isGenerating, onGenerate }) => {
   const [activeTab, setActiveTab] = useState<'basics' | 'physique' | 'attire' | 'cosmology' | 'style'>('basics');
+  const [isCodexOpen, setIsCodexOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +33,28 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleProceduralSynthesis = () => {
+      const { name, description } = generateProceduralChroma();
+      // First, update the description
+      updateConfig('customChromaDescription', description);
+      // Then set the profile name which triggers the change
+      updateConfig('chromaProfile', name);
+  };
+  
+  // Dynamic Theme Engine based on Chroma
+  const getChromaTheme = () => {
+      const chroma = config.chromaProfile;
+      if (chroma.includes('FIREFALL')) return 'from-amber-500 to-red-600';
+      if (chroma.includes('SOLAR')) return 'from-yellow-400 to-orange-500';
+      if (chroma.includes('NOCTURNE')) return 'from-indigo-900 to-slate-800';
+      if (chroma.includes('EARTH')) return 'from-emerald-600 to-teal-700';
+      if (chroma.includes('ARCANE')) return 'from-purple-500 to-fuchsia-600';
+      if (chroma.includes('SCREAM')) return 'from-white to-rose-400';
+      if (chroma.includes('VOID')) return 'from-gray-800 to-black';
+      if (chroma.startsWith('PROCEDURAL:')) return 'from-cyan-400 to-fuchsia-400';
+      return 'from-indigo-400 to-purple-400'; // Default
   };
 
   const tabs = [
@@ -208,6 +234,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
           </div>
         );
       case 'cosmology':
+        // Injecting the Procedural option into the list for display if active
+        const chromaOptions = [...C.CHROMA_PROFILES];
+        if (config.chromaProfile.startsWith('PROCEDURAL:')) {
+            chromaOptions.unshift({ label: config.chromaProfile, value: config.chromaProfile });
+        }
+
         return (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <div className="p-3 rounded-lg bg-purple-950/40 border border-purple-500/20 text-purple-200 text-xs">
@@ -219,7 +251,23 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
                     <p className="text-[10px] text-slate-500 mb-2">
                       Overwrites individual color settings with a complex MLAOS color-grammar profile.
                     </p>
-                    <SelectGroup id="chroma" label="Chroma Profile" value={config.chromaProfile} onChange={(v) => updateConfig('chromaProfile', v)} options={C.CHROMA_PROFILES} />
+                    
+                    {/* Procedural & Codex Buttons */}
+                    <div className="mb-3 grid grid-cols-2 gap-2">
+                         <Button variant="ghost" size="sm" onClick={handleProceduralSynthesis} className="border border-dashed border-purple-500/40 text-purple-300 hover:bg-purple-900/20 text-[10px]">
+                            <IconSparkles className="w-3 h-3 mr-1" />
+                            Synthesize (Procedural)
+                         </Button>
+                         <Button variant="secondary" size="sm" onClick={() => setIsCodexOpen(true)} className="text-[10px] border-indigo-500/30 text-indigo-300">
+                             <IconBook className="w-3 h-3 mr-1" />
+                             Open Codex Library
+                         </Button>
+                    </div>
+
+                    <SelectGroup id="chroma" label="Chroma Profile" value={config.chromaProfile} onChange={(v) => updateConfig('chromaProfile', v)} options={chromaOptions} />
+                    
+                    {/* D100 Roller Integration */}
+                    <ChromaDiceRoller onApply={(val) => updateConfig('chromaProfile', val)} />
                 </div>
 
                 <div className="space-y-4">
@@ -317,12 +365,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
         );
     }
   };
+  
+  const themeGradient = getChromaTheme();
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 border-r border-slate-800">
+    <div className="flex flex-col h-full bg-slate-900 border-r border-slate-800 relative">
         {/* Header */}
       <div className="p-5 border-b border-slate-800 bg-slate-900/50">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent flex items-center gap-2">
+        <h1 className={`text-xl font-bold bg-gradient-to-r ${themeGradient} bg-clip-text text-transparent flex items-center gap-2 transition-all duration-700`}>
             <IconSparkles className="w-5 h-5 text-indigo-400" />
             Lantern Forge
         </h1>
@@ -388,6 +438,14 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
           ) : 'CONSTRUCT AVATAR'}
         </Button>
       </div>
+
+      {/* Codex Overlay */}
+      {isCodexOpen && (
+          <ChromaCodex 
+            onClose={() => setIsCodexOpen(false)} 
+            onSelect={(val) => updateConfig('chromaProfile', val)} 
+          />
+      )}
     </div>
   );
 };

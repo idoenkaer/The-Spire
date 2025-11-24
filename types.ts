@@ -1,4 +1,5 @@
 
+
 export interface AvatarConfig {
   // Identity
   race: string;
@@ -48,6 +49,7 @@ export interface AvatarConfig {
   
   // MLAOS Cosmology & Lantern-Cathedral Engine
   chromaProfile: string;        // The specific MLAOS color profile
+  customChromaDescription?: string; // 🔹 NEW: Holds the description for procedural chromas
   spectralConstant: string;     // Gold Theta, Red Phi, etc.
   cathedralOrgan: string;       // The specific architectural room
   etiquetteMode: string;        // Orthodox vs Taboo
