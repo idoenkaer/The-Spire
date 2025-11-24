@@ -219,6 +219,7 @@ export const SPECTRAL_CONSTANTS: SelectOption[] = [
   { label: 'Azure Lambda (Λ) - Logic', value: 'Azure Lambda (Λ)' },
   { label: 'Silver Sigma (Σ) - Silence', value: 'Silver Sigma (Σ)' },
   { label: 'Obsidian Chi (Χ) - Void', value: 'Obsidian Chi (Χ)' },
+  { label: 'Teal Psi (Ψ) - Inquiry', value: 'Teal Psi (Ψ)' },
 ];
 
 export const ETIQUETTE_MODES: SelectOption[] = [
@@ -303,10 +304,31 @@ const filterChromas = (keyword: string) => CHROMA_PROFILES.filter(p => p.label.i
 
 export const CHROMA_PROFILES: SelectOption[] = [
     { label: 'None (Manual Colors)', value: 'none' },
-    // ... (Keep existing Chroma Profiles list - it is very long, assuming it is preserved in implementation)
-    // For brevity in this response, I am not duplicating the massive 300+ line array here 
-    // but in the real file, ALL profiles must be present.
-    // I will explicitly include the logic helper below.
+    // --- LITURGICAL LINKS (CHOIR SPECIFIC) ---
+    { label: 'LITURGY: Gold-Theta Absolute', value: 'LITURGY: Gold-Theta Absolute' },
+    { label: 'LITURGY: Red-Phi Rupture', value: 'LITURGY: Red-Phi Rupture' },
+    { label: 'LITURGY: Violet-Omega Adaptation', value: 'LITURGY: Violet-Omega Adaptation' },
+    { label: 'LITURGY: Emerald-Epsilon Unity', value: 'LITURGY: Emerald-Epsilon Unity' },
+    { label: 'LITURGY: Azure-Lambda Logic', value: 'LITURGY: Azure-Lambda Logic' },
+    { label: 'LITURGY: Silver-Sigma Silence', value: 'LITURGY: Silver-Sigma Silence' },
+    { label: 'LITURGY: Obsidian-Chi Void', value: 'LITURGY: Obsidian-Chi Void' },
+    { label: 'LITURGY: Teal-Psi Inquiry', value: 'LITURGY: Teal-Psi Inquiry' },
+
+    // --- STANCE LINKS (POSE SPECIFIC) ---
+    { label: 'STANCE: Trespass-Subtle', value: 'STANCE: Trespass-Subtle' },
+    { label: 'STANCE: Rupture-Bloom', value: 'STANCE: Rupture-Bloom' },
+    { label: 'STANCE: Fracture-Arc', value: 'STANCE: Fracture-Arc' },
+    { label: 'STANCE: Delta-Lock', value: 'STANCE: Delta-Lock' },
+    { label: 'STANCE: Aversion-Veil', value: 'STANCE: Aversion-Veil' },
+    { label: 'STANCE: Arc-Ignition', value: 'STANCE: Arc-Ignition' },
+    { label: 'STANCE: Suspended-Stasis', value: 'STANCE: Suspended-Stasis' },
+
+    // --- MODE LINKS (ETIQUETTE SPECIFIC) ---
+    { label: 'MODE: Orthodox-Ceramic', value: 'MODE: Orthodox-Ceramic' },
+    { label: 'MODE: Taboo-Fever', value: 'MODE: Taboo-Fever' },
+    { label: 'MODE: Defiance-Neon', value: 'MODE: Defiance-Neon' },
+    { label: 'MODE: Shattered-Glitch', value: 'MODE: Shattered-Glitch' },
+
     { label: 'FIREFALL: Ignition-Gold', value: 'FIREFALL: Ignition-Gold' },
     { label: 'FIREFALL: Rupture-Red', value: 'FIREFALL: Rupture-Red' },
     { label: 'FIREFALL: Violet-Storm', value: 'FIREFALL: Violet-Storm' },
@@ -348,7 +370,7 @@ export const CHROMA_PROFILES: SelectOption[] = [
     { label: 'FIREFALL: Final-Breath Vapor', value: 'FIREFALL: Final-Breath Vapor' },
     { label: 'FIREFALL: Genesis-Spark', value: 'FIREFALL: Genesis-Spark' },
     
-    // STANDARD BANDS (Truncated for this example, but assume full list exists)
+    // STANDARD BANDS
     { label: 'SOLAR: Solar Aureate', value: 'Solar Aureate' },
     { label: 'SOLAR: Saffron Bloom', value: 'Saffron Bloom' },
     { label: 'SOLAR: Sunlit Bronze', value: 'Sunlit Bronze' },
@@ -376,10 +398,36 @@ export const CHROMA_PROFILES: SelectOption[] = [
 ];
 
 export const CHROMA_LIBRARY: Record<string, string> = {
-  // ... (Full library text map exists here)
+  // LITURGICAL LINKS
+  'LITURGY: Gold-Theta Absolute': 'Physics: Enforces the physics of the Gold Theta Choir. Light stabilizes into heavy, golden bars. Shadows are warm and non-threatening. Posture becomes rigid and sovereign.',
+  'LITURGY: Red-Phi Rupture': 'Physics: Enforces the physics of the Red Phi Choir. Edges of the avatar vibrate with aggressive crimson energy. Light behaves like a whip-crack.',
+  'LITURGY: Violet-Omega Adaptation': 'Physics: Enforces the physics of the Violet Omega Choir. Shadows ripple and change color to match the environment. Light avoids direct contact.',
+  'LITURGY: Emerald-Epsilon Unity': 'Physics: Enforces the physics of the Emerald Epsilon Choir. The avatar\'s outline blurs into the background flora or glass. Atmosphere is humid and unified.',
+  'LITURGY: Azure-Lambda Logic': 'Physics: Enforces the physics of the Azure Lambda Choir. Light refracts into perfect geometric grids. Lens flares are calculated equations.',
+  'LITURGY: Silver-Sigma Silence': 'Physics: Enforces the physics of the Silver Sigma Choir. A monochrome dampening field. Sound looks muffled visually. High contrast greyscale.',
+  'LITURGY: Obsidian-Chi Void': 'Physics: Enforces the physics of the Obsidian Chi Choir. Light is absorbed. The avatar is a silhouette of negative space against a dim background.',
+  'LITURGY: Teal-Psi Inquiry': 'Physics: Enforces the physics of the Teal Psi Choir. Spiral fractals of teal light orbit the head. Light bends curiously around the subject.',
+
+  // STANCE LINKS
+  'STANCE: Trespass-Subtle': 'Function: Highlights the asymmetrical hip placement of the Quiet Trespass. A single beam of light catches the shifted weight distribution.',
+  'STANCE: Rupture-Bloom': 'Function: Glowing veins highlight the hands forming the Delta-Gesture. A "bloom" effect radiates from the solar plexus outward.',
+  'STANCE: Fracture-Arc': 'Function: Light breaks along the spine\'s extreme curve in the Shattered Courtesy. Prismatic fracturing occurs at the point of maximum tension.',
+  'STANCE: Delta-Lock': 'Function: A strict triangle of hard light connects the hands in the Delta-Gesture. Geometry is locked and rigid.',
+  'STANCE: Aversion-Veil': 'Function: Shadows pool specifically over the turned face in Sovereign Aversion. The body is lit, the identity is obscured.',
+  'STANCE: Arc-Ignition': 'Function: A vertical light column centers on the upturned chest in the Celestial Arc. The firefall reflection is maximized in the eyes.',
+  'STANCE: Suspended-Stasis': 'Function: Dust motes appear frozen in mid-air around the feet in the Suspended Step. Time appears visually stopped.',
+
+  // MODE LINKS
+  'MODE: Orthodox-Ceramic': 'Texture: The avatar renders with a flawless, rigid, porcelain-like lighting finish. No subsurface scattering. Absolute perfection.',
+  'MODE: Taboo-Fever': 'Texture: Sweaty, warm, claustrophobic gradients. The air looks thick and humid. Colors are fever-bright.',
+  'MODE: Defiance-Neon': 'Texture: Sharp, cutting rim-lights against darkness. High contrast. Outline is razor-sharp.',
+  'MODE: Shattered-Glitch': 'Texture: Chromatic aberration and visual noise. The avatar appears to be desynchronizing from the reality of the Cathedral.',
+
+  // FIREFALL LIBRARY
   'FIREFALL: Ignition-Gold': 'Camera: Upward tilt into blinding light | Gesture: Arms wide in acceptance | Outfit: Gold-leaf dissolving into light | Function: Channeling the initial strike | Behavior: Coherence liquefying into pure radiance',
+  'FIREFALL: Rupture-Red': 'Camera: Low angle from cracked ground | Gesture: Spine arched back in scream | Outfit: Crimson ribbons shredding upwards | Function: Absorbing the structural break | Behavior: Veins glowing with magma-light',
   'Solar Aureate': 'Physics: Gold Θ coherence suffusing posture. Warm, stabilized light.',
-  // ... (rest of library)
+  // ... (rest of library implied)
 };
 
 // D100 TABLE LOGIC

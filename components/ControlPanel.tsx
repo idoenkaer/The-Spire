@@ -40,9 +40,38 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
       // First, update the description
       updateConfig('customChromaDescription', description);
       // Then set the profile name which triggers the change
-      updateConfig('chromaProfile', name);
+      handleChromaChange(name);
   };
   
+  // Intelligent Chroma Handler - Automates Linking
+  const handleChromaChange = (value: string) => {
+      updateConfig('chromaProfile', value);
+
+      // LITURGICAL AUTOMATION: Link Chroma to Spectral Constant
+      if (value.includes('Gold-Theta')) updateConfig('spectralConstant', 'Gold Theta (Θ)');
+      else if (value.includes('Red-Phi')) updateConfig('spectralConstant', 'Red Phi (Φ)');
+      else if (value.includes('Violet-Omega')) updateConfig('spectralConstant', 'Violet Omega (Ω)');
+      else if (value.includes('Emerald-Epsilon')) updateConfig('spectralConstant', 'Emerald Epsilon (Ε)');
+      else if (value.includes('Azure-Lambda')) updateConfig('spectralConstant', 'Azure Lambda (Λ)');
+      else if (value.includes('Silver-Sigma')) updateConfig('spectralConstant', 'Silver Sigma (Σ)');
+      else if (value.includes('Obsidian-Chi')) updateConfig('spectralConstant', 'Obsidian Chi (Χ)');
+      else if (value.includes('Teal-Psi')) updateConfig('spectralConstant', 'Teal Psi (Ψ) - Inquiry');
+
+      // STANCE AUTOMATION: Link Chroma to Stance
+      if (value.includes('Trespass')) updateConfig('stance', 'Stance of Quiet Trespass');
+      else if (value.includes('Rupture-Bloom') || value.includes('Delta-Lock')) updateConfig('stance', 'Forbidden Δ-Gesture');
+      else if (value.includes('Fracture-Arc')) updateConfig('stance', 'Shattered Courtesy');
+      else if (value.includes('Aversion-Veil')) updateConfig('stance', 'Sovereign Aversion');
+      else if (value.includes('Arc-Ignition')) updateConfig('stance', 'The Celestial Arc (Firefall)');
+      else if (value.includes('Suspended-Stasis')) updateConfig('stance', 'The Suspended Step');
+
+      // MODE AUTOMATION: Link Chroma to Etiquette Mode
+      if (value.includes('Orthodox')) updateConfig('etiquetteMode', 'orthodox');
+      else if (value.includes('Taboo')) updateConfig('etiquetteMode', 'taboo_corridor');
+      else if (value.includes('Defiance')) updateConfig('etiquetteMode', 'erotic_defiance');
+      else if (value.includes('Shattered')) updateConfig('etiquetteMode', 'shattered');
+  };
+
   // Dynamic Theme Engine based on Chroma
   const getChromaTheme = () => {
       const chroma = config.chromaProfile;
@@ -264,10 +293,10 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
                          </Button>
                     </div>
 
-                    <SelectGroup id="chroma" label="Chroma Profile" value={config.chromaProfile} onChange={(v) => updateConfig('chromaProfile', v)} options={chromaOptions} />
+                    <SelectGroup id="chroma" label="Chroma Profile" value={config.chromaProfile} onChange={(v) => handleChromaChange(v)} options={chromaOptions} />
                     
                     {/* D100 Roller Integration */}
-                    <ChromaDiceRoller onApply={(val) => updateConfig('chromaProfile', val)} />
+                    <ChromaDiceRoller onApply={(val) => handleChromaChange(val)} />
                 </div>
 
                 <div className="space-y-4">
@@ -443,7 +472,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ config, updateConfig, onRan
       {isCodexOpen && (
           <ChromaCodex 
             onClose={() => setIsCodexOpen(false)} 
-            onSelect={(val) => updateConfig('chromaProfile', val)} 
+            onSelect={(val) => handleChromaChange(val)} 
           />
       )}
     </div>
