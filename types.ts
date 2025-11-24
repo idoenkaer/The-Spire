@@ -56,6 +56,7 @@ export interface AvatarConfig {
   stance: string;               // The specific physical pose (The Canticle, etc)
   lanternBehavior: string;      // How the lanterns interact
   architectureReaction: number; // -50 (Rigid) to 50 (Fracturing/Adapting)
+    cosmologySettings?: CosmologySettings;  // Advanced cosmology mode and settings
 
   // Ritual Skin Engine
   ritualSkinPreset: string;       // which pattern

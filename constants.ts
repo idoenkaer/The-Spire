@@ -466,3 +466,188 @@ export const getChromaFromRoll = (roll: number): { tier: string, profile: string
     const selected = pool[Math.floor(Math.random() * pool.length)];
     return { tier, profile: selected ? selected.value : 'none' };
 };
+
+
+// ══════════════════════════════════════════════════
+// CHROMATIC TAXONOMY - Chroma Profiles
+// ══════════════════════════════════════════════════
+
+import { ChromaProfile, EtiquetteOrgan, ForbiddenStance } from './types';
+
+export const CHROMA_PROFILES: ChromaProfile[] = [
+  {
+    id: 'rose_aurora',
+    name: 'Rose Aurora',
+    palette: ['#FFAEC9', '#FFD6E0', '#FFF0F5'],
+    hairBase: '#FFB6C1',
+    hairHighlight: '#FFC0CB',
+    skinTone: '#FFE4E1',
+    undertone: 'soft_rose',
+    emotionalPhysics: 'vulnerability',
+    spectralBehavior: 'soft_diffusion',
+    etiquetteOrgan: 'gaze',
+    forbiddenStance: 'averted_memory',
+    resonance: 'gentle',
+    description: 'A delicate rose-tinted palette evoking vulnerability and softness'
+  },
+  {
+    id: 'amethyst_dusk',
+    name: 'Amethyst Dusk',
+    palette: ['#9966CC', '#B19CD9', '#D8BFD8'],
+    hairBase: '#9370DB',
+    hairHighlight: '#BA55D3',
+    skinTone: '#E6E6FA',
+    undertone: 'cool_lavender',
+    emotionalPhysics: 'mystical_longing',
+    spectralBehavior: 'ethereal_shimmer',
+    etiquetteOrgan: 'posture',
+    forbiddenStance: 'suspended_grace',
+    resonance: 'haunting',
+    description: 'Deep purples and lavenders for mystical, liminal states'
+  },
+  {
+    id: 'crimson_whisper',
+    name: 'Crimson Whisper',
+    palette: ['#DC143C', '#FF6B6B', '#FFB3BA'],
+    hairBase: '#B22222',
+    hairHighlight: '#FF4500',
+    skinTone: '#FFF5EE',
+    undertone: 'warm_red',
+    emotionalPhysics: 'passion_restrained',
+    spectralBehavior: 'pulsing_glow',
+    etiquetteOrgan: 'breath',
+    forbiddenStance: 'threshold_tremor',
+    resonance: 'intense',
+    description: 'Rich reds suggesting restrained passion and ceremonial intensity'
+  },
+  {
+    id: 'midnight_sapphire',
+    name: 'Midnight Sapphire',
+    palette: ['#0F52BA', '#1E3A8A', '#60A5FA'],
+    hairBase: '#000080',
+    hairHighlight: '#4169E1',
+    skinTone: '#F0F8FF',
+    undertone: 'cool_blue',
+    emotionalPhysics: 'depth_clarity',
+    spectralBehavior: 'crystalline_refraction',
+    etiquetteOrgan: 'eyes',
+    forbiddenStance: 'piercing_regard',
+    resonance: 'profound',
+    description: 'Deep blues for clarity, wisdom, and ceremonial depth'
+  },
+  {
+    id: 'golden_reverie',
+    name: 'Golden Reverie',
+    palette: ['#FFD700', '#FFA500', '#FFEC8B'],
+    hairBase: '#DAA520',
+    hairHighlight: '#FFD700',
+    skinTone: '#FFFACD',
+    undertone: 'warm_gold',
+    emotionalPhysics: 'radiant_joy',
+    spectralBehavior: 'luminous_cascade',
+    etiquetteOrgan: 'smile',
+    forbiddenStance: 'unveiled_delight',
+    resonance: 'bright',
+    description: 'Warm golds and yellows for radiant joy and ceremonial celebration'
+  }
+];
+
+// ══════════════════════════════════════════════════
+// ETIQUETTE ORGANS
+// ══════════════════════════════════════════════════
+
+export const ETIQUETTE_ORGANS: EtiquetteOrgan[] = [
+  {
+    id: 'gaze',
+    title: 'Gaze',
+    behaviors: ['direct', 'soften', 'avert', 'pierce'],
+    resonance: 'subtle_reveal',
+    ritualContext: 'Visual exchange and emotional disclosure through eye contact',
+    forbiddenStances: ['averted_memory', 'piercing_regard'],
+    description: 'The ceremonial use of eye contact to convey vulnerability or intensity'
+  },
+  {
+    id: 'posture',
+    title: 'Posture',
+    behaviors: ['upright', 'curved', 'suspended', 'collapsed'],
+    resonance: 'architectural_tension',
+    ritualContext: 'The body as geometry expressing emotional states',
+    forbiddenStances: ['suspended_grace', 'threshold_tremor'],
+    description: 'Physical stance and spinal architecture as emotional language'
+  },
+  {
+    id: 'breath',
+    title: 'Breath',
+    behaviors: ['shallow', 'deep', 'held', 'released'],
+    resonance: 'rhythmic_pulse',
+    ritualContext: 'Respiratory patterns as markers of emotional intensity',
+    forbiddenStances: ['threshold_tremor', 'unveiled_delight'],
+    description: 'Breathing as a ceremonial expression of passion and restraint'
+  },
+  {
+    id: 'hands',
+    title: 'Hands',
+    behaviors: ['open', 'closed', 'reaching', 'trembling'],
+    resonance: 'gestural_invitation',
+    ritualContext: 'Manual gesture as emotional offering or withdrawal',
+    forbiddenStances: ['reaching_refusal', 'trembling_acceptance'],
+    description: 'The hands as instruments of ceremonial exchange and emotional vulnerability'
+  }
+];
+
+// ══════════════════════════════════════════════════
+// FORBIDDEN STANCES
+// ══════════════════════════════════════════════════
+
+export const FORBIDDEN_STANCES: ForbiddenStance[] = [
+  {
+    id: 'averted_memory',
+    name: 'Averted Memory',
+    category: 'gaze_withdrawal',
+    emotionalSignature: 'vulnerability_concealed',
+    postureGeometry: 'eyes_lowered_45deg',
+    chromaAffinity: ['rose_aurora', 'amethyst_dusk'],
+    etiquetteOrgans: ['gaze'],
+    description: 'The ceremonial act of looking away to protect emotional exposure'
+  },
+  {
+    id: 'suspended_grace',
+    name: 'Suspended Grace',
+    category: 'postural_liminal',
+    emotionalSignature: 'transition_frozen',
+    postureGeometry: 'arc_tension_midpoint',
+    chromaAffinity: ['amethyst_dusk', 'midnight_sapphire'],
+    etiquetteOrgans: ['posture'],
+    description: 'A pose held at the threshold between two states, expressing liminal tension'
+  },
+  {
+    id: 'threshold_tremor',
+    name: 'Threshold Tremor',
+    category: 'anticipatory_shiver',
+    emotionalSignature: 'anticipation_manifest',
+    postureGeometry: 'micro_oscillation',
+    chromaAffinity: ['crimson_whisper', 'rose_aurora'],
+    etiquetteOrgans: ['breath', 'posture'],
+    description: 'The subtle physical trembling before emotional release or revelation'
+  },
+  {
+    id: 'unveiled_delight',
+    name: 'Unveiled Delight',
+    category: 'radiant_opening',
+    emotionalSignature: 'joy_unguarded',
+    postureGeometry: 'chest_expansion_upward',
+    chromaAffinity: ['golden_reverie'],
+    etiquetteOrgans: ['breath', 'posture'],
+    description: 'The physical expression of unrestrained happiness and ceremonial celebration'
+  },
+  {
+    id: 'piercing_regard',
+    name: 'Piercing Regard',
+    category: 'intense_focus',
+    emotionalSignature: 'clarity_absolute',
+    postureGeometry: 'forward_gaze_locked',
+    chromaAffinity: ['midnight_sapphire'],
+    etiquetteOrgans: ['gaze'],
+    description: 'Direct, unwavering eye contact that demands emotional truth'
+  }
+];
